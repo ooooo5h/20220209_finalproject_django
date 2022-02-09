@@ -17,22 +17,28 @@ class User(APIView):
         email_ok_user = Users.objects.filter(email=input_email).first()
         
         if email_ok_user:
-            # 임시 : 비밀번호는 암호화되어있고 장고에서는 아직 기능 구현이 안되어있음!!
-            # 그래서 이메일만 맞으면 성공처리하자
+            # 비밀번호도 맞는지 확인
             
-            user_serialized = UsersSerializer(email_ok_user)
+            if email_ok_user.is_same_password(input_pw):
+                
+                user_serialized = UsersSerializer(email_ok_user)
+                
+                return Response({
+                    'code' : 200,
+                    'message' : '로그인 성공',
+                    'data' : {
+                        'user' : user_serialized.data,
+                    }
+                }) 
+            else :
+                return Response({
+                    'code' : 400,
+                    'message' : '비밀번호가 틀렸습니다.'
+                }, status=400)
             
+        else:
             return Response({
-                'code' : 200,
-                'message' : '임시 - 로그인 성공',
-                'data' : {
-                    'user' : user_serialized.data,
-                }
-        })
-            
-        else :
-            return Response({
-                'code' : 400,
-                'message' : '해당 이메일의 사용자는 존재하지않습니다.'
+                'code': 400,
+                'message': '해당 이메일의 사용자는 존재하지 않습니다.'
             }, status=400)
-            
+
