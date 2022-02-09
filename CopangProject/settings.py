@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'copang_app',
+    'rest_framework', # 3번 레스트프레임워크 세팅
 ]
 
 APPEND_SLASH = False  # 2번 FALSE처리
