@@ -4,6 +4,8 @@ import my_custom_settings
 
 from copang_app.models import Users
 
+from functools import wraps
+
 def encode_token(user):
     
     return jwt.encode(
@@ -39,3 +41,18 @@ def decode_token(token):
         # 복호화중에 문제가 발생했다는 이야기
         # 토큰이 잘못됐다 => 사용자 없다고 None 리턴
         return None
+    
+    
+# 데코레이터 - @추가함수 형태로, 본 함수 실행전에 추가기능을 우선 수행하도록 하는 함수
+def token_required(func):
+    @wraps(func)
+    def decorater(*args, **kwargs):
+        
+        print('토큰 필요 기능')
+        
+        # 추가 행동을 하고 나면, 본 함수를 실행하도록 처리
+
+        return func(*args, **kwargs)
+
+    # 위의 decorator에 적힌 내용을 실행하도록
+    return decorater
