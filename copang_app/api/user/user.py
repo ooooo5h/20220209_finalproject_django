@@ -65,3 +65,27 @@ class User(APIView):
                 'message': '해당 이메일의 사용자는 존재하지 않습니다.'
             }, status=400)
 
+
+    def put(self, request):
+        
+        # 이메일,비밀번호, 이름, 연락처 받아서 회원가입
+        # email = request.POST['email']
+        print(request.POST)
+        
+        args = {}
+        
+        for param in request.POST:
+            args[param] = request.POST[param]
+            
+        new_user = Users()
+        new_user.email = args['email']
+        new_user.password = args['password']
+        new_user.name = args['name']
+        new_user.phone = args['phone']
+        
+        new_user.save()
+        
+        return Response({
+            'code' : 200,
+            'message' : '임시 - 회원가입 기능'
+        })
