@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from copang_app.models import Users
 from copang_app.serializers import UsersSerializer
 
+from copang_app.api.utils import encode_token
+
 class User(APIView):
     
     def post(self, request):
@@ -28,6 +30,7 @@ class User(APIView):
                     'message' : '로그인 성공',
                     'data' : {
                         'user' : user_serialized.data,
+                        'token' : encode_token(email_ok_user),
                     }
                 }) 
             else :
