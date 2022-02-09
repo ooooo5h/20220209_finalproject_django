@@ -404,6 +404,7 @@ class UserProductQuestions(models.Model):
         db_table = 'user_product_questions'
 
 
+
 class Users(models.Model):
     name = models.CharField(max_length=20)
     email = models.CharField(max_length=50)
