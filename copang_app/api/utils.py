@@ -5,6 +5,7 @@ import my_custom_settings
 from copang_app.models import Users
 
 from functools import wraps
+from rest_framework.response import Response
 
 def encode_token(user):
     
@@ -48,15 +49,20 @@ def token_required(func):
     @wraps(func)
     def decorater(*args, **kwargs):
         
-        print('토큰 필요 기능')
-        print('변수 목록 - ', args)
-        print('키워드가 붙은 변수 목록 - ', kwargs)
+        token = args[1].headers['X-Http-Token']
+        user = decode_token(token)
         
-        print('리퀘스트에 대한 변수의 헤더 -', args[1].headers['X-Http-Token'])
-        
-        # 추가 행동을 하고 나면, 본 함수를 실행하도록 처리
+        if user:
+            # 프로젝트의 전역변수로 사용자를 전달하는 작업이 필요
+            
+            # 추가 행동을 하고 나면, 본 함수를 실행하도록 처리
 
-        return func(*args, **kwargs)
+            return func(*args, **kwargs)
+        else:
+            return Response({
+                'code' : 403,
+                'message' : '잘못된 토큰입니다.'
+            }, status=403)
 
     # 위의 decorator에 적힌 내용을 실행하도록
     return decorater
