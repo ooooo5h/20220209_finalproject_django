@@ -3,6 +3,7 @@ from rest_framework.response import Response
 
 from copang_app.models import Users
 from copang_app.serializers import UsersSerializer
+from copang_app.global_data import token_user
 
 from copang_app.api.utils import encode_token, decode_token, token_required
 
@@ -11,10 +12,18 @@ class User(APIView):
     @token_required
     def get(self, request):
         
+        print('토큰사용자:', request.session['user_id'])
+        
+        selected_user = Users.objects.filter(id=request.session['user_id']).first()
+        
+        user_serializer = UsersSerializer(selected_user)
+        
         return Response({
             'code' : 200,
             'message' : '내 정보 조회',
-            
+            'data' : {
+                'user' : user_serializer.data,
+            }
         })
        
    
