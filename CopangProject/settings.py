@@ -39,16 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'copang_app',
-    'rest_framework', # 3번 레스트프레임워크 세팅
+    'rest_framework', 
+    'drf_yasg',
 ]
 
-APPEND_SLASH = False  # 2번 FALSE처리
+APPEND_SLASH = False  
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',  1번 주석해제
+    # 'django.middleware.csrf.CsrfViewMiddleware', 
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
